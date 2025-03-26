@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethan's Personal Page</title>
     <style>
+        /* General Styles */
         :root {
             --primary: #BB86FC;
             --secondary: #03DAC6;
-            --background: rgba(18, 18, 18, 0.85);
+            --background: #121212;
             --surface: rgba(33, 33, 33, 0.7);
             --text: #E0E0E0;
             --border: rgba(255, 255, 255, 0.2);
@@ -38,9 +39,29 @@
             padding: 20px;
             overflow-x: hidden;
         }
+        /* Hero Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            background-image: url('https://via.placeholder.com/1500x800');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+        /* Container and Sections */
         .container {
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             padding: 30px;
             border-radius: 20px;
             backdrop-filter: blur(15px);
@@ -65,7 +86,6 @@
         h1 {
             color: var(--primary);
             font-size: 2rem;
-            animation: fadeIn 1s ease-in-out;
         }
         .section {
             margin-top: 20px;
@@ -76,7 +96,6 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.8s forwards ease-out 0.3s;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
         }
         .section.visible {
             opacity: 1;
@@ -87,9 +106,11 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .menu-btn, .dark-mode-btn {
+        /* Hamburger Menu */
+        .menu-btn {
             position: fixed;
             top: 20px;
+            left: 20px;
             font-size: 24px;
             cursor: pointer;
             background: var(--surface);
@@ -98,13 +119,7 @@
             padding: 12px;
             border-radius: 50%;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
         }
-        .menu-btn:hover, .dark-mode-btn:hover {
-            transform: scale(1.1);
-        }
-        .menu-btn { left: 20px; }
-        .dark-mode-btn { right: 20px; }
         .nav-menu {
             position: fixed;
             top: 0;
@@ -112,10 +127,10 @@
             width: 280px;
             height: 100vh;
             background: var(--surface);
-            backdrop-filter: blur(15px);
             padding: 30px;
             transition: left 0.4s ease-in-out;
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 100;
         }
         .nav-menu a {
             display: block;
@@ -134,48 +149,29 @@
         .nav-menu.show {
             left: 0;
         }
-        /* Hero Image with Overlayed Text */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 60vh;
-            background-image: url('https://via.placeholder.com/1500x800');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .hero h2 {
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-        /* Parallax effect */
-        .parallax {
-            background: url('https://via.placeholder.com/1500x800') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            width: 100%;
-            position: relative;
-            z-index: -1;
-            animation: parallaxEffect 5s infinite linear;
-        }
-        @keyframes parallaxEffect {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 0 100%;
-            }
+        /* Dark Mode Button */
+        .dark-mode-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: var(--surface);
+            border: none;
+            color: var(--text);
+            padding: 12px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <button class="dark-mode-btn" onclick="toggleDarkMode()">🌙</button>
+    <!-- Hamburger Menu Button -->
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <!-- Dark Mode Button -->
+    <button class="dark-mode-btn" id="darkModeBtn">🌙</button>
+
+    <!-- Navigation Menu -->
     <nav class="nav-menu" id="navMenu">
         <a href="#bio">Bio</a>
         <a href="#blog">Blog</a>
@@ -183,38 +179,43 @@
         <a href="#contact">Contact</a>
     </nav>
 
-    <!-- Hero Section with Overlayed Text -->
+    <!-- Hero Section with Overlay Text -->
     <div class="hero">
         <h2>Ethan’s Blog</h2>
     </div>
 
-    <div class="container parallax"></div>
-    <div class="container">
-        <h1>Ethan</h1>
-        <div class="section" id="bio">
-            <h2>Bio</h2>
-            <p>Hey! I'm Ethan, a creative and funny tech enthusiast who loves Minecraft, game design, and sound design.</p>
-        </div>
-        <div class="section" id="blog">
-            <h2>Blog</h2>
-            <p>Coming soon... Stay tuned for my thoughts on gaming, tech, and life!</p>
-        </div>
-        <div class="section" id="info">
-            <h2>Info</h2>
-            <p>I'm passionate about game development and aspire to work on Minecraft sound design.</p>
-        </div>
-        <div class="section" id="contact">
-            <h2>Contact Me</h2>
-            <p>Reach out to me at: <a href="mailto:example@example.com">example@example.com</a></p>
-        </div>
+    <!-- Main Content -->
+    <div id="bio" class="section">
+        <h2>Bio</h2>
+        <p>Hey! I'm Ethan, a creative and funny tech enthusiast who loves Minecraft, game design, and sound design.</p>
     </div>
+    <div id="blog" class="section">
+        <h2>Blog</h2>
+        <p>Coming soon... Stay tuned for my thoughts on gaming, tech, and life!</p>
+    </div>
+    <div id="info" class="section">
+        <h2>Info</h2>
+        <p>I'm passionate about game development and aspire to work on Minecraft sound design.</p>
+    </div>
+    <div id="contact" class="section">
+        <h2>Contact Me</h2>
+        <p>Reach out to me at: <a href="mailto:example@example.com">example@example.com</a></p>
+    </div>
+
     <script>
+        // Attach Event Listeners
+        document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+        document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+
+        // Toggle Navigation Menu
         function toggleMenu() {
             document.getElementById('navMenu').classList.toggle('show');
         }
+
+        // Toggle Dark Mode
         function toggleDarkMode() {
             document.body.classList.toggle('light-mode');
-            const modeIcon = document.querySelector('.dark-mode-btn');
+            const modeIcon = document.getElementById('darkModeBtn');
             modeIcon.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
         }
 
