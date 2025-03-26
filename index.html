@@ -3,238 +3,673 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethan's Personal Page</title>
+
+    <!-- SEO Meta Tags -->
+    <title>Ethan - Personal Portfolio & Blog</title>
+    <meta name="description" content="Welcome to Ethan's personal space on the web. Explore my bio, blog, insights, and get in touch.">
+    <meta name="keywords" content="Ethan, personal website, portfolio, blog, tech, design, contact">
+    <meta name="author" content="Ethan">
+    <meta name="theme-color" content="#121218"> <!-- Default dark theme color -->
+
+    <!-- Favicon Placeholder -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧑‍💻</text></svg>">
+
     <style>
-        /* General Styles */
-        :root {
-            --primary: #BB86FC;
-            --secondary: #03DAC6;
-            --background: #121212;
-            --surface: rgba(33, 33, 33, 0.7);
-            --text: #E0E0E0;
-            --border: rgba(255, 255, 255, 0.2);
-        }
-        .light-mode {
-            --background: #FFFFFF;
-            --surface: #F5F5F5;
-            --text: #121212;
-            --border: rgba(0, 0, 0, 0.2);
-        }
-        * {
+        /* 1. Reset & Base Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease-in-out;
         }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* Add transitions for smooth theme changes */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 2. Color Themes Variables */
+        :root {
+            /* Default: Dark Mode */
+            --primary-color: #a09eff; /* Light Purple - Accent */
+            --secondary-color: #c6caff; /* Lighter Purple */
+            --surface-color-rgb: 60, 60, 80; /* Dark Purple-Gray for Glass */
+            --background-color: #121218; /* Very Dark Desaturated Blue/Purple */
+            --text-color: #e8e8ff; /* Off-white with slight purple tint */
+            --text-secondary: #a8a8d0; /* Muted purple-gray */
+            --highlight-color: var(--primary-color);
+            --border-color-light: rgba(255, 255, 255, 0.1);
+            --border-color-form: rgba(255, 255, 255, 0.2); /* Slightly more visible form border */
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --theme-toggle-icon-color: var(--text-secondary);
+            --theme-toggle-hover-bg: rgba(255, 255, 255, 0.1);
+
+            --glass-blur: 10px;
+            --border-radius: 16px;
+            --section-padding: 6rem 2rem;
+            --content-max-width: 900px;
+        }
+
+        body.light-mode {
+            /* Light Mode Overrides */
+            --primary-color: #6750A4; /* Material You Purple */
+            --secondary-color: #4A4458; /* Darker Purple/Gray */
+            --surface-color-rgb: 240, 238, 250; /* Light Gray-Purple for Glass */
+            --background-color: #FFFBFE; /* Almost White */
+            --text-color: #1D1B20; /* Very Dark Gray */
+            --text-secondary: #49454F; /* Medium Gray */
+            --border-color-light: rgba(0, 0, 0, 0.1);
+            --border-color-form: rgba(0, 0, 0, 0.3);
+            --shadow-color: rgba(103, 80, 164, 0.15); /* Subtle purple shadow */
+            --theme-toggle-icon-color: var(--text-secondary);
+            --theme-toggle-hover-bg: rgba(0, 0, 0, 0.05);
+
+            /* Update theme-color meta tag for light mode */
+            /* Handled by JS */
+        }
+
+        /* 3. Typography */
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: var(--secondary-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        h1 { font-size: clamp(2.5rem, 6vw, 3.8rem); } /* Slightly adjusted clamp */
+        h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+        p { margin-bottom: 1rem; color: var(--text-secondary); transition: color 0.3s ease;}
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover, a:focus-visible { color: var(--secondary-color); text-decoration: underline; outline-offset: 2px; }
+
+        :focus-visible {
+             outline: 2px solid var(--primary-color);
+             outline-offset: 4px;
+             border-radius: 4px;
+        }
+        :focus:not(:focus-visible) { outline: none; }
+
+        /* 4. Layout & Sections */
+        .container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        main > section {
+            min-height: 80vh;
+            padding: var(--section-padding);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: var(--background);
-            color: var(--text);
-            position: relative;
-            padding: 20px;
-            overflow-x: hidden;
+            border-bottom: 1px solid var(--border-color-light);
+            transition: border-color 0.3s ease;
         }
-        /* Hero Section */
-        .hero {
-            position: relative;
+        main > section:last-child {
+            border-bottom: none;
+            min-height: auto;
+        }
+
+        .section-content {
+            max-width: var(--content-max-width);
             width: 100%;
-            height: 60vh;
-            background-image: url('https://via.placeholder.com/1500x800');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            margin: 0 auto;
         }
-        .hero h2 {
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-        /* Container and Sections */
-        .container {
-            width: 90%;
-            max-width: 800px;
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.6s forwards ease-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        h1 {
-            color: var(--primary);
-            font-size: 2rem;
-        }
-        .section {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            background: var(--background);
-            border: 1px solid var(--border);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s forwards ease-out 0.3s;
-        }
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        /* Hamburger Menu */
-        .menu-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            background: var(--surface);
-            border: none;
-            color: var(--text);
-            padding: 12px;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .nav-menu {
+
+        /* 5. Navigation */
+        .main-nav {
             position: fixed;
             top: 0;
-            left: -280px;
-            width: 280px;
-            height: 100vh;
-            background: var(--surface);
-            padding: 30px;
-            transition: left 0.4s ease-in-out;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-        }
-        .nav-menu a {
-            display: block;
-            padding: 15px;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 18px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-        .nav-menu a:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-        .nav-menu.show {
             left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, border-bottom 0.4s ease;
+            background-color: transparent;
+            border-bottom: 1px solid transparent;
         }
-        /* Dark Mode Button */
-        .dark-mode-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            background: var(--surface);
+
+        .main-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem; /* Add gap for spacing between brand/links/toggle */
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            flex-shrink: 0; /* Prevent brand from shrinking */
+        }
+        .nav-brand:hover, .nav-brand:focus-visible { color: var(--primary-color); text-decoration: none; }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 0.5rem; /* Reduced gap slightly */
+            flex-wrap: wrap; /* Allow wrapping */
+            justify-content: center; /* Center links when wrapping */
+             margin: 0; /* Reset margin */
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            white-space: nowrap; /* Prevent link text wrapping */
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
+            color: var(--text-color);
+            background-color: rgba(var(--surface-color-rgb), 0.5);
+            text-decoration: none;
+        }
+        .nav-links a.active { color: var(--text-color); font-weight: 700; }
+
+        /* Scrolled Nav State */
+        .main-nav.scrolled {
+            background-color: rgba(var(--surface-color-rgb), 0.7); /* Slightly less transparent */
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--border-color-light);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
             border: none;
-            color: var(--text);
-            padding: 12px;
+            cursor: pointer;
+            padding: 0.5rem;
             border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--theme-toggle-icon-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            flex-shrink: 0; /* Prevent shrinking */
         }
+        .theme-toggle:hover, .theme-toggle:focus-visible {
+            background-color: var(--theme-toggle-hover-bg);
+            color: var(--text-color); /* Make icon brighter on hover */
+            outline: none; /* Use focus-visible style */
+        }
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        /* Hide one icon based on theme */
+        .light-mode .theme-toggle .moon-icon { display: none; }
+        .theme-toggle .sun-icon { display: none; } /* Hide sun by default (dark mode) */
+        .light-mode .theme-toggle .sun-icon { display: block; }
+
+
+        /* 6. Hero Section (Bio) */
+        #bio {
+           min-height: 100vh;
+           text-align: center;
+           display: flex; /* Use flex to better center content */
+           align-items: center; /* Vertically center */
+        }
+        #bio h1 { color: var(--text-color); margin-bottom: 0.5rem; }
+        #bio .subtitle {
+             font-size: clamp(1rem, 3vw, 1.3rem); /* Responsive subtitle */
+             color: var(--primary-color);
+             margin-bottom: 2rem;
+             font-weight: 400;
+         }
+
+        /* 7. Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(var(--surface-color-rgb), 0.4);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color-light);
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            margin-bottom: 2rem;
+             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:last-child { margin-bottom: 0; }
+
+        /* 8. Blog Section Placeholder */
+        .blog-post-preview { /* Already using glass-card */ }
+        .blog-post-preview h3 { margin-bottom: 0.5rem; }
+        .blog-post-preview .date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* 9. Contact Form */
+        .contact-form { display: grid; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .contact-form label {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            background-color: rgba(var(--surface-color-rgb), 0.3);
+            border: 1px solid var(--border-color-form); /* Use specific form border */
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            color: var(--text-color);
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder { color: var(--text-secondary); opacity: 0.7; }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 160, 158, 255), 0.4); /* Adjusted alpha */
+        }
+        .contact-form textarea { min-height: 150px; resize: vertical; }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: var(--background-color); /* Contrast text */
+            border: none;
+            padding: 0.9rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            justify-self: start;
+        }
+        .submit-btn:hover, .submit-btn:focus-visible {
+            background-color: var(--secondary-color);
+            color: var(--text-color); /* Adjust text color on hover if needed */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(var(--primary-color-rgb, 160, 158, 255), 0.3);
+        }
+        .light-mode .submit-btn {
+             color: #FFFFFF; /* White text on purple button in light mode */
+        }
+         .light-mode .submit-btn:hover, .light-mode .submit-btn:focus-visible {
+             background-color: var(--secondary-color);
+             color: #FFFFFF; /* Ensure text stays white on hover */
+        }
+
+
+        /* 10. Animations (Scroll-Triggered Reveal) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        .section-content > * { transition-delay: calc(0.1s * var(--child-index, 0)); }
+
+        /* 11. Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color-light);
+             transition: border-color 0.3s ease, color 0.3s ease;
+        }
+         footer a { color: var(--text-secondary); }
+         footer a:hover, footer a:focus-visible { color: var(--primary-color); text-decoration: underline; }
+
+        /* 12. Responsiveness Improvements */
+        @media (max-width: 768px) {
+            html { font-size: 15px; }
+            :root {
+                --section-padding: 4rem 1rem; /* Reduced section padding */
+            }
+
+            .main-nav .container {
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: space-between; /* Space between brand/toggle and links */
+            }
+            .nav-links {
+                order: 3; /* Move links below brand and toggle */
+                width: 100%; /* Take full width when wrapped */
+                justify-content: center; /* Center links */
+                margin-top: 0.8rem;
+                gap: 0.2rem 0.5rem; /* Fine-tune link gap */
+            }
+             .nav-links a { padding: 0.4rem 0.6rem; }
+             .theme-toggle { order: 2; /* Place toggle after brand */}
+
+            h1 { font-size: clamp(2rem, 8vw, 2.8rem); } /* Adjusted heading size */
+            h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+
+            .glass-card { padding: 1.5rem; } /* Reduced card padding */
+            .contact-form { gap: 1rem; }
+            .contact-form input,
+            .contact-form textarea { width: 100%; } /* Ensure inputs take full width */
+            .submit-btn {
+                 width: 100%; /* Make button full width */
+                 padding: 0.8rem; /* Adjust padding */
+            }
+            #bio { min-height: 90vh; } /* Slightly reduce hero height */
+        }
+
+         @media (max-width: 480px) {
+             html { font-size: 14px; } /* Further reduce base font size */
+             h1 { font-size: clamp(1.8rem, 9vw, 2.5rem); }
+             .nav-links { gap: 0.1rem 0.3rem; } /* Even tighter link gap */
+             .nav-links a { font-size: 0.85rem; }
+              .glass-card { padding: 1.2rem; }
+         }
+
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu Button -->
-    <button class="menu-btn" id="menuBtn">☰</button>
-    <!-- Dark Mode Button -->
-    <button class="dark-mode-btn" id="darkModeBtn">🌙</button>
 
-    <!-- Navigation Menu -->
-    <nav class="nav-menu" id="navMenu">
-        <a href="#bio">Bio</a>
-        <a href="#blog">Blog</a>
-        <a href="#info">Info</a>
-        <a href="#contact">Contact</a>
+    <!-- Navigation Bar -->
+    <nav class="main-nav" id="mainNav" aria-label="Main Navigation">
+        <div class="container">
+            <a href="#bio" class="nav-brand">Ethan</a>
+            <ul class="nav-links">
+                <li><a href="#bio" class="nav-link">Bio</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="#info" class="nav-link">Info</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+             <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode" aria-label="Toggle light/dark mode" aria-live="polite">
+                <!-- Moon Icon (Default for Dark Mode) -->
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.166 7.758a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"></path></svg>
+                <!-- Sun Icon (Hidden by default) -->
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.622 4.431-8.528a.75.75 0 01.818.162z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
     </nav>
 
-    <!-- Hero Section with Overlay Text -->
-    <div class="hero">
-        <h2>Ethan’s Blog</h2>
-    </div>
+    <!-- Main Content Area -->
+    <main>
 
-    <!-- Main Content -->
-    <div id="bio" class="section">
-        <h2>Bio</h2>
-        <p>Hey! I'm Ethan, a creative and funny tech enthusiast who loves Minecraft, game design, and sound design.</p>
-    </div>
-    <div id="blog" class="section">
-        <h2>Blog</h2>
-        <p>Coming soon... Stay tuned for my thoughts on gaming, tech, and life!</p>
-    </div>
-    <div id="info" class="section">
-        <h2>Info</h2>
-        <p>I'm passionate about game development and aspire to work on Minecraft sound design.</p>
-    </div>
-    <div id="contact" class="section">
-        <h2>Contact Me</h2>
-        <p>Reach out to me at: <a href="mailto:example@example.com">example@example.com</a></p>
-    </div>
+        <!-- Section 1: Bio / Hero -->
+        <section id="bio" aria-labelledby="bio-heading">
+             <div class="section-content animate-on-scroll">
+                <h1 id="bio-heading" style="--child-index: 1;">Ethan</h1>
+                <p class="subtitle" style="--child-index: 2;">[Creative Technologist | Developer | Problem Solver]</p>
+                <p style="--child-index: 3;">[Welcome! This is my corner of the internet. I'm passionate about building elegant digital experiences and exploring the intersection of technology and design. Scroll down to learn more about my work and thoughts.]</p>
+                <!-- <img src="placeholder.jpg" alt="A picture of Ethan" style="width: 150px; height: 150px; border-radius: 50%; margin-top: 2rem; --child-index: 4; display: block; margin-left: auto; margin-right: auto;"> -->
+             </div>
+        </section>
+
+        <!-- Section 2: Blog -->
+        <section id="blog" aria-labelledby="blog-heading">
+            <div class="section-content animate-on-scroll">
+                <h2 id="blog-heading" style="--child-index: 1;">Blog / Thoughts</h2>
+
+                <article class="blog-post-preview glass-card" style="--child-index: 2;">
+                    <h3><a href="#">[Blog Post Title 1]</a></h3>
+                    <span class="date">October 26, 2023</span>
+                    <p>[A short excerpt or summary of your blog post goes here. Entice the reader to click through...]</p>
+                    <a href="#">Read More →</a>
+                </article>
+
+                <article class="blog-post-preview glass-card" style="--child-index: 3;">
+                    <h3><a href="#">[Blog Post Title 2]</a></h3>
+                    <span class="date">September 15, 2023</span>
+                    <p>[Another brief summary of a different post. Maybe about a recent project or an idea you explored...]</p>
+                    <a href="#">Read More →</a>
+                </article>
+
+                <!-- ** INSERT NEW BLOG POST SNIPPETS HERE ** -->
+                <!-- (Update --child-index for each new post) -->
+
+                 <p style="--child-index: 4; margin-top: 2rem; text-align: center;">[See all posts...]</p>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Info / About -->
+        <section id="info" aria-labelledby="info-heading">
+            <div class="section-content animate-on-scroll">
+                <h2 id="info-heading" style="--child-index: 1;">More Info / About Me</h2>
+                <div class="glass-card" style="--child-index: 2;">
+                     <p>[Expand on your bio here. Detail your skills (e.g., Frontend Development, UI/UX Design, Backend technologies), tools you use (React, Node.js, Figma), projects you're proud of, or your career goals. Make it personal and informative.]</p>
+                     <!-- Example:
+                     <h3>Skills</h3>
+                     <ul><li>JavaScript (ES6+)</li><li>React & Next.js</li><li>HTML5 & CSS3/SCSS</li><li>Node.js & Express</li><li>UI/UX Principles</li><li>Git & Version Control</li></ul>
+                     -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Contact Me -->
+        <section id="contact" aria-labelledby="contact-heading">
+            <div class="section-content animate-on-scroll">
+                <h2 id="contact-heading" style="--child-index: 1;">Get In Touch</h2>
+                <p style="--child-index: 2;">[Interested in collaborating, have a question, or just want to say hi? Feel free to reach out using the form below or connect with me on other platforms.]</p>
+
+                <form class="contact-form glass-card" action="mailto:your.email@example.com" method="GET" enctype="text/plain" style="--child-index: 3;">
+                     <!-- Remember to change your.email@example.com -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                     <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Regarding...">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="body" required placeholder="Your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© <span id="currentYear"></span> Ethan. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script>
-        // Attach Event Listeners
-        document.getElementById('menuBtn').addEventListener('click', toggleMenu);
-        document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const themeToggleButton = document.getElementById('themeToggle');
+            const themeMetaTag = document.querySelector('meta[name="theme-color"]');
+            const lightModeClass = 'light-mode';
+            const lightThemeColor = '#FFFBFE'; // Corresponds to light mode --background-color
+            const darkThemeColor = '#121218';  // Corresponds to dark mode --background-color
 
-        // Toggle Navigation Menu
-        function toggleMenu() {
-            document.getElementById('navMenu').classList.toggle('show');
-        }
+            // --- Theme Preference Handling ---
+            const currentTheme = localStorage.getItem('theme');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-        // Toggle Dark Mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-            const modeIcon = document.getElementById('darkModeBtn');
-            modeIcon.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-        }
-
-        // Scroll reveal effect
-        const sections = document.querySelectorAll('.section');
-        window.addEventListener('scroll', revealSections);
-
-        function revealSections() {
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                const sectionVisible = window.innerHeight - 150;
-                if (sectionTop < sectionVisible) {
-                    section.classList.add('visible');
+            // Function to apply the theme
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.add(lightModeClass);
+                    themeMetaTag.setAttribute('content', lightThemeColor);
+                    themeToggleButton.setAttribute('aria-label', 'Switch to dark mode');
+                     themeToggleButton.setAttribute('aria-pressed', 'true');
+                } else {
+                    body.classList.remove(lightModeClass);
+                    themeMetaTag.setAttribute('content', darkThemeColor);
+                    themeToggleButton.setAttribute('aria-label', 'Switch to light mode');
+                     themeToggleButton.setAttribute('aria-pressed', 'false');
                 }
-            });
-        }
+            };
 
-        // Initial reveal check
-        revealSections();
+            // Function to toggle theme
+            const toggleTheme = () => {
+                const newTheme = body.classList.contains(lightModeClass) ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            };
+
+            // Set initial theme based on stored preference or system setting
+            if (currentTheme) {
+                applyTheme(currentTheme);
+            } else {
+                 // Default to dark if no preference stored, or use system preference
+                 // applyTheme(prefersDarkScheme.matches ? 'dark' : 'light');
+                 applyTheme('dark'); // Defaulting to dark as per original request
+            }
+
+            // Add event listener for the toggle button
+            themeToggleButton.addEventListener('click', toggleTheme);
+
+            // Optional: Listen for changes in system preference
+            // prefersDarkScheme.addEventListener('change', (e) => {
+            //     // Only change if no explicit user preference is set
+            //     if (!localStorage.getItem('theme')) {
+            //         applyTheme(e.matches ? 'dark' : 'light');
+            //     }
+            // });
+
+
+            // --- Navigation Bar Styling on Scroll ---
+            const nav = document.getElementById('mainNav');
+            const scrollThreshold = 50;
+            const handleNavScroll = () => {
+                if (window.scrollY > scrollThreshold) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            };
+            window.addEventListener('scroll', handleNavScroll, { passive: true });
+            handleNavScroll();
+
+            // --- Active Navigation Link Highlighting ---
+            const sections = document.querySelectorAll('main > section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const handleActiveLink = () => {
+                let currentSectionId = '';
+                const offset = window.innerHeight * 0.4;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - offset && window.scrollY < sectionTop + sectionHeight - offset) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+                const nearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
+                if (!currentSectionId && window.scrollY < window.innerHeight * 0.5) currentSectionId = sections[0]?.id || '';
+                if (!currentSectionId && nearBottom) currentSectionId = sections[sections.length - 1]?.id || '';
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) link.classList.add('active');
+                });
+            };
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                 clearTimeout(scrollTimeout);
+                 scrollTimeout = setTimeout(handleActiveLink, 50);
+            }, { passive: true });
+            handleActiveLink();
+
+            // --- Scroll-Triggered Animations ---
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // Optional: Stop observing once visible
+                        // observer.unobserve(entry.target);
+                    } else {
+                         // Optional: Reverse animation on scroll up
+                         entry.target.classList.remove('is-visible');
+                    }
+                });
+            };
+            const observer = new IntersectionObserver(observerCallback, { threshold: 0.1 });
+            animatedElements.forEach(el => {
+                observer.observe(el);
+                const children = el.querySelectorAll('.section-content > *');
+                 children.forEach((child, index) => child.style.setProperty('--child-index', index));
+            });
+
+            // --- Update Footer Year ---
+            const yearSpan = document.getElementById('currentYear');
+            if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+            // --- Smooth Scroll & Focus Management ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            // CSS handles smooth scroll, JS manages focus after scroll
+                            const focusTarget = targetElement.querySelector('h1, h2') || targetElement;
+                            setTimeout(() => {
+                                focusTarget.setAttribute('tabindex', '-1');
+                                focusTarget.focus({ preventScroll: true });
+                                focusTarget.removeAttribute('tabindex');
+                             }, 800); // Adjust delay based on typical scroll duration
+                        }
+                    }
+                });
+            });
+
+             // --- Define Primary Color RGB for Box Shadow ---
+             function hexToRgb(hex) {
+                let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                hex = hex.replace(shorthandRegex, function(m, r, g, b) { return r + r + g + g + b + b; });
+                let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+             }
+             const updatePrimaryRgbVariable = () => {
+                 const primaryColorHex = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+                 const primaryColorRgb = hexToRgb(primaryColorHex);
+                 if (primaryColorRgb) {
+                     document.documentElement.style.setProperty('--primary-color-rgb', `${primaryColorRgb.r}, ${primaryColorRgb.g}, ${primaryColorRgb.b}`);
+                 }
+             };
+             updatePrimaryRgbVariable(); // Initial call
+             // Also update if theme changes (in case primary color differs)
+             themeToggleButton.addEventListener('click', updatePrimaryRgbVariable);
+             // If using system preference listener, update there too.
+
+        }); // End DOMContentLoaded
     </script>
+
 </body>
 </html>
+
+---
+
